@@ -77,6 +77,8 @@ def DPC(location, dc, name):
     delta = relativeDistance(length, dist, rho)
 
     fig, ax = plt.subplots()
+    plt.clf()
+    plt.title(name + '  dc:' + str(float('%.6f' % dc)), size = 18)
     plt.plot(rho, delta, '.', color = 'k')
     plt.xlabel('rho'), plt.ylabel('delta')
 
@@ -86,9 +88,9 @@ def DPC(location, dc, name):
     def on_press(event):
         fig.canvas.mpl_disconnect(cid)
 
-        print("position:", event.xdata, event.ydata)
         thRho = event.xdata
         thDel = event.ydata
+        print("position:", thRho, thDel)
 
         #确定聚类中心
         result = np.ones(length, dtype = np.int) * (-1)
@@ -112,4 +114,5 @@ def DPC(location, dc, name):
 
     cid = fig.canvas.mpl_connect('button_press_event', on_press)
 
+    plt.savefig('result/' + name + '_decision.png', facecolor='white', edgecolor='none')
     plt.show()
