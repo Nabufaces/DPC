@@ -5,6 +5,7 @@ import numpy as np
 from sklearn import cluster
 from DPC import DPC
 from DPC import DPC_Data_Filed
+from DPC import KNN_DPC
 
 f = open('./dataSet/D31.txt', 'r')
 #f = open('./dataSet/Aggregation.txt', 'r')
@@ -30,9 +31,10 @@ clustering_algorithms = (
     # ('DPC-4%', DPC.DPC(dataSet, 0.04))
 )
 
-DPC.DPC(dataSet, 0.02, 'D31')
+#DPC.DPC(dataSet, 0.02, 'D31')
 #dc = DPC_Data_Filed.DPC_Data_Filed(dataSet)
 #DPC.DPC(dataSet, dc, 'D31_Data_Filed')
+KNN_DPC.KNN_DPC(dataSet, 'D31_KNN_DPC')
 #   y_pred = algorithm.fit_predict(dataSet)
 
     # row_num = int(math.sqrt(len(clustering_algorithms)))
