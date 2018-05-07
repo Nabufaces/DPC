@@ -1,6 +1,5 @@
 #-*- coding:utf-8 -*-
 
-from math import *
 import numpy as np
 from sklearn import cluster
 from DPC import DPC

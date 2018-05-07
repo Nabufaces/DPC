@@ -6,3 +6,5 @@
 *.ntvs*
 *.njsproj
 *.sln
+
+__pycache__/
