@@ -30,8 +30,8 @@ clustering_algorithms = (
 )
 
 DPC.DPC(dataSet, 0.02, 'Aggregation')
-dc = DPC_Data_Filed.DPC_Data_Filed(dataSet)
-DPC.DPC(dataSet, dc, 'Aggregation_Data_Filed')
+#dc = DPC_Data_Filed.DPC_Data_Filed(dataSet)
+#DPC.DPC(dataSet, dc, 'Aggregation_Data_Filed')
 #   y_pred = algorithm.fit_predict(dataSet)
 
     # row_num = int(math.sqrt(len(clustering_algorithms)))

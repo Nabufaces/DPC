@@ -11,16 +11,18 @@ def filterColor():
     return result
 
 def draw(y_pred, dataSet, name):
-
-    colors = np.array(list(islice(cycle(filterColor()),int(max(y_pred) + 1))))
+    colorArr = np.array(list(islice(cycle(filterColor()),int(max(y_pred) - min(y_pred) + 1))))
+    color_y = colorArr[y_pred]
+    for begin in range(len(color_y)):
+        if y_pred[begin] == -1:
+            color_y[begin] = 'k'
 
     plt.clf()
     plt.title(name, size = 18)
 
-    plt.scatter(dataSet[:, 0], dataSet[:, 1], marker='.', color = colors[y_pred])
-
-    plt.xticks(())
-    plt.yticks(())
+    plt.scatter(dataSet[:, 0], dataSet[:, 1], marker='.', color = color_y)
+    plt.xticks()
+    plt.yticks()
 
     plt.savefig('result/' + name + '.png', facecolor='white', edgecolor='none')
     plt.show()

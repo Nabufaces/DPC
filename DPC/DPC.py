@@ -25,12 +25,13 @@ def caculateDistance(length, location):
     # dist距离矩阵， result距离向量
     return dist, np.array(result)
 
-# 求点的局部密度(localDensity)
-def localDensity(length, dist, dist_vector, dc):
-    position = int(len(dist_vector) * dc)
+def caculateDc(dist_vector, percent):
+    position = int(len(dist_vector) * percent)
     sortedll = np.sort(dist_vector)
-    dc = sortedll[position] #阈值
+    return sortedll[position] #阈值
 
+# 求点的局部密度(localDensity)
+def localDensity(length, dist, dc):
     rho = np.zeros((length, 1))
 
     for begin in range(length):
@@ -67,18 +68,38 @@ def nearestNeighbor(length, dist, rho, result, index):
         result[neighbor] = nearestNeighbor(length, dist, rho, result, neighbor)
     return result[neighbor]
 
-def DPC(location, dc, name):
+def detectHalo(length, dist, rho, result, dc):
+    pb = np.zeros(length)
+    for begin in range(length):
+        end = begin + 1
+        while end < length:
+            if result[begin] != result[end] and dist[begin][end] < dc:
+                p_avg = (rho[begin] + rho[end]) / 2
+                if p_avg > pb[begin]:
+                    pb[begin] = p_avg
+                if p_avg > pb[end]:
+                    pb[end] = p_avg
+            end += 1
+
+    for begin in range(length):
+        if rho[begin] < pb[begin]:
+            result[begin] = -1
+    return result
+
+def DPC(location, percent, name):
     length = len(location)
 
     dist, dist_vector = caculateDistance(length, location)
 
-    rho = localDensity(length, dist, dist_vector, dc)
+    dc = caculateDc(dist_vector, percent)
+
+    rho = localDensity(length, dist, dc)
 
     delta = relativeDistance(length, dist, rho)
 
     fig, ax = plt.subplots()
     plt.clf()
-    plt.title(name + '  dc:' + str(float('%.6f' % dc)), size = 18)
+    plt.title(name + '  dc:' + str(float('%.6f' % percent)), size = 18)
     plt.plot(rho, delta, '.', color = 'k')
     plt.xlabel('rho'), plt.ylabel('delta')
 
@@ -108,6 +129,8 @@ def DPC(location, dc, name):
         for i in range(length):
             if result[i] == -1:
                 result[i] = nearestNeighbor(length, dist, rho, result, i)
+
+        result = detectHalo(length, dist, rho, result, dc)
 
         draw(result, location, name)
 
