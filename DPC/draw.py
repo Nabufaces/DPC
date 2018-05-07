@@ -15,7 +15,7 @@ def draw(y_pred, dataSet, name):
     color_y = colorArr[y_pred]
     for begin in range(len(color_y)):
         if y_pred[begin] == -1:
-            color_y[begin] = 'k'
+            color_y[begin] = '#555555'
 
     plt.clf()
     plt.title(name, size = 18)
