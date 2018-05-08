@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from math import *
+from queue import Queue
 import numpy as np
 import matplotlib.pyplot as plt
 from DPC import DPC
@@ -24,6 +25,7 @@ def k_dist(length, dist):
     return k_dist_arr
 
 def outlier(length, k_dist_arr, threshold):
+    # 0为非离群点，1为离群点
     outlier_arr = np.zeros((length, 1))
 
     for begin in range(length):
@@ -31,6 +33,9 @@ def outlier(length, k_dist_arr, threshold):
             outlier_arr[begin] = 1
 
     return outlier_arr
+
+def strategyOne(result):
+    return;
 
 def KNN_DPC(location, name):
     length = len(location)
@@ -72,6 +77,9 @@ def KNN_DPC(location, name):
 
         outlier_arr = outlier(length, k_dist_arr, threshold)
 
+        for i in range(length):
+            if result[i] == -1 and outlier_arr[i] == 0:
+                strategyOne()
 
     cid = fig.canvas.mpl_connect('button_press_event', on_press)
 

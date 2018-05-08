@@ -36,8 +36,7 @@ def localDensity(length, dist, dc):
 
     for begin in range(length):
         for end in range(length):
-            if begin != end:
-                rho[begin] += exp(-(dist[begin][end]/dc) ** 2)
+            rho[begin] += exp(-(dist[begin][end]/dc) ** 2)
 
     return rho
 

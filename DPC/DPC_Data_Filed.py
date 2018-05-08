@@ -2,18 +2,22 @@
 
 from math import *
 import numpy as np
+import matplotlib.pyplot as plt
 from DPC import DPC
 
-MAX = 0.1
-numRange = 0.001
+START = 0
+END = 1.1
+numRange = 0.01
 
-def DPC_Data_Filed(location):
+def DPC_Data_Filed(location, name):
     length = len(location)
 
     dist, dist_vector = DPC.caculateDistance(length, location)
 
-    X = np.arange(0, MAX, numRange)
+    X = np.arange(START, END, numRange)
     Y = np.zeros((len(X)))
+    threshold_x = 0
+    threshold_y = float('inf')
 
     for x_index, x in enumerate(X):
         if x == 0:
@@ -25,26 +29,22 @@ def DPC_Data_Filed(location):
 
         for begin in range(length):
             for end in range(length):
-                if begin != end:
-                    U[begin] += exp(-(dist[begin][end]/x) ** 2)
+                U[begin] += exp(-(dist[begin][end]/x) ** 2)
             Z += U[begin]
-
-        if Z == 0:
-            Y[x_index] = float('inf')
-            continue
 
         for begin in range(length):
             temp = U[begin] / Z
             if temp > 0:
-                Y[x_index] += temp * log(temp, e)
+                Y[x_index] += temp * log(temp, 2)
 
         Y[x_index] = - Y[x_index]
 
-    minY = np.min(Y)
-    threshold = 0
-    num = 0
-    for i in range(len(Y)):
-        if minY == Y[i]:
-            threshold += X[i]
-            num += 1
-    return 3 * (threshold / num) / sqrt(2)
+        if Y[x_index] < threshold_y:
+            threshold_x = x
+            threshold_y = Y[x_index]
+        print(Y[x_index], x)
+
+    plt.plot(X, Y)
+    plt.savefig('result/' + name + '.png', facecolor='white', edgecolor='none')
+    plt.show()
+    return 3 * threshold_x / sqrt(2)
