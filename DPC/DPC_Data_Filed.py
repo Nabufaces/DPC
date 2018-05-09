@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from DPC import DPC
 
 START = 0
-END = 1.1
+END = 20
 numRange = 0.01
 
 def DPC_Data_Filed(location, name):

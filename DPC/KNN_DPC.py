@@ -6,6 +6,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from DPC import DPC
 
+def K_nearset(length, dist, K):
+    nearset = np.zeros((length, K))
+
+    # for begin in range(length):
+    #
+
 def localDensity(length, dist):
     rho = np.zeros((length, 1))
 
@@ -41,6 +47,10 @@ def KNN_DPC(location, name):
     length = len(location)
 
     dist, dist_vector = DPC.caculateDistance(length, location)
+
+    K = int(input("输入K: "))
+
+    nearset_arr = K_nearset(length, dist, K)
 
     rho = localDensity(length, dist)
 

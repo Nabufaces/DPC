@@ -7,8 +7,8 @@ from DPC import DPC
 from DPC import DPC_Data_Filed
 from DPC import KNN_DPC
 
-f = open('./dataSet/D31.txt', 'r')
-#f = open('./dataSet/Aggregation.txt', 'r')
+#f = open('./dataSet/D31.txt', 'r')
+f = open('./dataSet/Aggregation.txt', 'r')
 #f = open('./dataSet/s1.txt', 'r')
 lines = f.readlines()
 dataSet = []
@@ -32,9 +32,9 @@ clustering_algorithms = (
 )
 
 #DPC.DPC(dataSet, 0.02, 'Aggregation')
-dc = DPC_Data_Filed.DPC_Data_Filed(dataSet, 'D31_Data_Filed_Entropy')
+#dc = DPC_Data_Filed.DPC_Data_Filed(dataSet, 'Aggregation_Data_Filed_Entropy')
 #DPC.DPC(dataSet, dc, 'Aggregation')
-#KNN_DPC.KNN_DPC(dataSet, 'Aggregation_Data_Filed')
+KNN_DPC.KNN_DPC(dataSet, 'Aggregation_Data_Filed')
 #   y_pred = algorithm.fit_predict(dataSet)
 
     # row_num = int(math.sqrt(len(clustering_algorithms)))
