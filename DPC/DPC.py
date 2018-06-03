@@ -83,7 +83,6 @@ def detectHalo(length, dist, rho, result, dc):
     for begin in range(length):
         if rho[begin] < pb[begin]:
             result[begin] = -1
-    return result
 
 def DPC(location, percent, name):
     length = len(location)
@@ -129,7 +128,7 @@ def DPC(location, percent, name):
             if result[i] == -1:
                 result[i] = nearestNeighbor(length, dist, rho, result, i)
 
-        result = detectHalo(length, dist, rho, result, dc)
+        # detectHalo(length, dist, rho, result, dc)
 
         draw(result, location, name)
 

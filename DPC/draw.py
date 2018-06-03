@@ -21,8 +21,8 @@ def draw(y_pred, dataSet, name):
     plt.title(name, size = 18)
 
     plt.scatter(dataSet[:, 0], dataSet[:, 1], marker='.', color = color_y)
-    plt.xticks()
-    plt.yticks()
+    plt.xticks([])
+    plt.yticks([])
 
     plt.savefig('result/' + name + '.png', facecolor='white', edgecolor='none')
-    plt.show()
+    #plt.show()
