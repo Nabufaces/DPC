@@ -84,10 +84,20 @@ def detectHalo(length, dist, rho, result, dc):
         if rho[begin] < pb[begin]:
             result[begin] = -1
 
-def DPC(location, percent, name):
+def DPC(location, percent, name, isDist = False):
     length = len(location)
 
-    dist, dist_vector = caculateDistance(length, location)
+    if isDist:
+        dist = location
+        dist_vector = []
+        for begin in range(length):
+            end = begin + 1
+            while end < length:
+                dist_vector.append(dist[begin][end])
+                end += 1
+        dist_vector = np.array(dist_vector)
+    else:
+        dist, dist_vector = caculateDistance(length, location)
 
     dc = caculateDc(dist_vector, percent)
 
@@ -97,7 +107,8 @@ def DPC(location, percent, name):
 
     fig, ax = plt.subplots()
     plt.clf()
-    plt.title(name + '  dc:' + str(float('%.6f' % percent)), size = 18)
+    # plt.title(name + '  dc:' + str(float('%.6f' % percent)), size = 18)
+    plt.title(name, size = 18)
     plt.plot(rho, delta, '.', color = 'k')
     plt.xlabel('rho'), plt.ylabel('delta')
 
@@ -128,10 +139,12 @@ def DPC(location, percent, name):
             if result[i] == -1:
                 result[i] = nearestNeighbor(length, dist, rho, result, i)
 
-        # detectHalo(length, dist, rho, result, dc)
-
-        draw(result, location, name)
-
+        if isDist:
+            for i in range(center):
+                print(list(result).count(i))
+        else:
+            detectHalo(length, dist, rho, result, dc)
+            draw(result, location, name)
 
     cid = fig.canvas.mpl_connect('button_press_event', on_press)
 

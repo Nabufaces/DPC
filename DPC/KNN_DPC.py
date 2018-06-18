@@ -61,8 +61,9 @@ def strategyOne(k_arr_index, outlier_arr, dist, result, result_visited, K):
     queue = Queue()
     for begin in range(K):
         i = int(k_arr_index[key][begin])
-        result[i] = result[int(key)]
-        queue.put(i)
+        if result[i] == -1:
+            result[i] = result[int(key)]
+            queue.put(i)
 
     while not queue.empty():
         q = queue.get()
@@ -78,7 +79,7 @@ def strategyOne(k_arr_index, outlier_arr, dist, result, result_visited, K):
 
     strategyOne(k_arr_index, outlier_arr, dist, result, result_visited, K)
 
-def strategyTwo(k_arr_index, result, length, K, center):
+def strategyTwo(k_arr_index, result, length, K, center, dist, rho):
     Nc = []
     Nk = []
     N_index = []
@@ -95,18 +96,17 @@ def strategyTwo(k_arr_index, result, length, K, center):
 
     Vmax = np.max(Nk)
 
-    # for begin in range(len(Nk)):
-    #     if Nk[begin] == Vmax:
-    #         if Nk[begin] == K:
-    #
-    #         elif Nk[begin] > 0 and Nk[begin] < K:
+    for i in range(length):
+        if result[i] == -1:
+            result[i] = DPC.nearestNeighbor(length, dist, rho, result, i)
 
-
-
-def KNN_DPC(location, name):
+def KNN_DPC(location, name, isDist = False):
     length = len(location)
 
-    dist, dist_vector = DPC.caculateDistance(length, location)
+    if isDist:
+        dist = location
+    else:
+        dist, dist_vector = DPC.caculateDistance(length, location)
 
     K = int(input("输入K: "))
 
@@ -151,13 +151,13 @@ def KNN_DPC(location, name):
 
         strategyOne(k_arr_index, outlier_arr, dist, result, result_visited, K)
 
-        for i in range(length):
-            if result[i] == -1:
-                result[i] = DPC.nearestNeighbor(length, dist, rho, result, i)
+        strategyTwo(k_arr_index, result, length, K, center, dist, rho)
 
-        # strategyTwo(k_arr_index, result, length, K, center)
-
-        draw.draw(result, location, name)
+        if isDist:
+            for i in range(center):
+                print(list(result).count(i))
+        else:
+            draw.draw(result, location, name)
 
     cid = fig.canvas.mpl_connect('button_press_event', on_press)
 
